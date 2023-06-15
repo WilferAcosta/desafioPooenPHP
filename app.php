@@ -35,14 +35,16 @@ class CuentaCorriente extends CuentaBancaria {
 class CuentaAhorros extends CuentaBancaria {
     // No es necesario sobrescribir el método retirar, se hereda de CuentaBancaria
 }
+$_DATA= json_decode(file_get_contents("php://input"),true);
+/**asi se envia los datos que recibe del json
+ */
+$cuentaCorriente = new CuentaCorriente($_DATA [0]["monto"]);
+echo $cuentaCorriente->retirar($_DATA[0]["retiro"]) . "<br>"; // Retiro exitoso
+echo $cuentaCorriente->retirar($_DATA[0]["retiro2"]) . "<br>"; // Saldo insuficiente. Se ha aplicado un cargo por sobregiro de: 10
 
-$cuentaCorriente = new CuentaCorriente(100);
-echo $cuentaCorriente->retirar(50) . "<br>"; // Retiro exitoso
-echo $cuentaCorriente->retirar(200) . "<br>"; // Saldo insuficiente. Se ha aplicado un cargo por sobregiro de: 10
-
-$cuentaAhorros = new CuentaAhorros(200);
-echo $cuentaAhorros->retirar(150) . "<br>"; // Retiro exitoso
-echo $cuentaAhorros->retirar(300) . "<br>"; // El monto a retirar es superior a su saldo.
+$cuentaAhorros = new CuentaAhorros($_DATA [1]["monto"]);
+echo $cuentaAhorros->retirar($_DATA[1]["retiro"]) . "<br>"; // Retiro exitoso
+echo $cuentaAhorros->retirar($_DATA[1]["retiro2"]) . "<br>"; // El monto a retirar es superior a su saldo.
 
 
 ?>
